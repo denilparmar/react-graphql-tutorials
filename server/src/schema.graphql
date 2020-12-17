@@ -1,0 +1,29 @@
+ type Query {
+        name: String!
+        age: Int!
+        isSingle: Boolean
+        numbers: [Int!]!
+        location: Location
+        users: [User!]!
+}
+    
+type Location {
+        state: String!
+        city: String!
+}
+    
+type User {
+    name: String!
+    age: Int!
+    location: Location
+}
+ 
+type Mutation {
+    addUser(name: String!, age: Int!): [User!]!
+    updateUser(id: Int!, name: String!, age: Int): User!
+    deleteUser(id: Int!): User!
+}
+
+type Subscription {
+    update: User!
+}
