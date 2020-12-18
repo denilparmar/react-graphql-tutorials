@@ -1,25 +1,37 @@
+const _ = require('lodash');
+const Product = require('../../models/Product');
+const Review = require('../../models/Review');
+const { getMessage } = require('../utils/functions');
+
 const Query = {
-    name() {
-        return 'Dan';
+    async products() {
+        try {
+            let products = await Product.find({});
+            products = _.orderBy(products, ['updatedAt'], ['desc']);
+            return products;
+        }
+        catch (error) {
+            throw new Error('Error while getting list of products. Try again later.');
+        }
     },
-    age() {
-        return 50;
-    },
-    isSingle() {
-        return false;
-    },
-    numbers() {
-        return [30, 56, 79, 12, 65];
-    },
-    location() {
-        return {
-            state: 'New York',
-            city: 'Albany'
-        };
-    },
-    users(parent, args, ctx, info) {
-        const {users} = ctx;
-        return users;
+    async reviews(parent, args, ctx, info) {
+        try {
+            const { skuId } = args;
+            const product = await Product.findOne({ skuId });
+            if (!product) {
+                throw new Error(`Message:Product with skuId ${skuId} does not exist.`);
+            }
+            let reviews = await Review.find({ product: product._id });
+            reviews = _.orderBy(reviews, ['updatedAt'], ['desc']);
+            return reviews;
+        } catch (error) {
+            const message = error.message;
+            if (message.startsWith('Message')) {
+                throw new Error(getMessage(message));
+            } else {
+                throw new Error('Error while getting reviews. Try again later.');
+            }
+        }
     }
 };
 
