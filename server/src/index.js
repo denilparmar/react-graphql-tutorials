@@ -1,5 +1,4 @@
 const { GraphQLServer } = require('graphql-yoga');
-const users = require('./utils/functions');
 const Mutation = require('./resolvers/Mutuation');
 const Query = require('./resolvers/Query');
 require('../connection');
@@ -10,9 +9,6 @@ const server = new GraphQLServer({
         Query,
         Mutation
     },
-    context: {
-        users,
-    }
 });
 
 const options = {
