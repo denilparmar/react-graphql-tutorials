@@ -5,6 +5,8 @@
   "license": "MIT",
   "dependencies": {
     "graphql-yoga": "^1.18.3",
+    "lodash": "4.17.19",
+    "mongoose": "5.9.25",
     "nodemon": "^2.0.6",
     "uuid": "^8.3.2"
   },
